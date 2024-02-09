@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Flip Example Preset</title>
+    <link rel="stylesheet" href="./flip/flip.min.css">
+</head>
+
+<body>
+    <style>
+        .tick {
+            padding-bottom: 1em;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif
+        }
+
+        .tick-label {
+            font-size: .375em;
+            text-align: center
+        }
+
+        .tick-group {
+            margin: 0.25em;
+            text-align: center
+        }
+		</style>
+    <div class="tick" data-did-init="handleTickInit">
+        <div data-repeat="true" data-layout="horizontal center fit" data-transform="preset(d, h, m, s) -> delay">
+            <div class="tick-group">
+                <div data-key="value" data-repeat="true" data-transform="pad(00) -> split -> delay"><span data-view="flip"></span></div><span data-key="label" data-view="text" class="tick-label"></span>
+            </div>
+        </div>
+    </div>
+    <script>
+		function handleTickInit(tick) {
+		    var locale = {
+		        YEAR_PLURAL: '年',
+		        YEAR_SINGULAR: '年',
+		        MONTH_PLURAL: '月',
+		        MONTH_SINGULAR: '月',
+		        WEEK_PLURAL: '周',
+		        WEEK_SINGULAR: '周',
+		        DAY_PLURAL: '天',
+		        DAY_SINGULAR: '天',
+		        HOUR_PLURAL: '小时',
+		        HOUR_SINGULAR: '小时',
+		        MINUTE_PLURAL: '分钟',
+		        MINUTE_SINGULAR: '分钟',
+		        SECOND_PLURAL: '秒',
+		        SECOND_SINGULAR: '秒',
+		        MILLISECOND_PLURAL: '毫秒',
+		        MILLISECOND_SINGULAR: '毫秒'
+		    };
+		    for (var key in locale) {
+		        if (!locale.hasOwnProperty(key)) {
+		            continue
+		        }
+		        tick.setConstant(key, locale[key])
+		    }
+
+		    function getQueryVariable(variable) {
+		        var query = window.location.search.substring(1);
+		        var vars = query.split("&");
+		        for (var i = 0; i < vars.length; i++) {
+		            var pair = vars[i].split("=");
+		            if (pair[0] == variable) {
+		                return pair[1]
+		            }
+		        }
+		        return (false)
+		    }
+		    var counter = Tick.count.down(getQueryVariable("time"));
+		    counter.onupdate = function(value) {
+		        tick.value = value
+		    }
+		}
+    </script>
+    <script src="./flip/flip.min.js"></script>
+</body>
+
+</html>
